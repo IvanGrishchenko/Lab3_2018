@@ -37,7 +37,18 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="C:/Tools/SFML-2.5.0/include" />
 		</Compiler>
+		<Linker>
+			<Add library="sfml-graphics-d" />
+			<Add library="sfml-window-d" />
+			<Add library="sfml-system-d" />
+			<Add directory="C:/Tools/SFML-2.5.0/lib" />
+		</Linker>
+		<Unit filename="lab3_functions.cxx" />
+		<Unit filename="lab3_functions.hxx" />
+		<Unit filename="lab3_line.cxx" />
+		<Unit filename="lab3_line.hxx" />
 		<Unit filename="lab3_main.cxx" />
 		<Extensions>
 			<code_completion />
