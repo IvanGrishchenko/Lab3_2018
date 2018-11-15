@@ -31,5 +31,5 @@ void Line::setB(float b0){
 }
 
 bool Line::isPointIsAbove(sf::CircleShape p){
-    return getK()*(p.getPosition().x+radius) + getB() - (p.getPosition().y+radius) < eps;
+    return getK()*(p.getPosition().x+radius) + getB() - (p.getPosition().y+radius) > -eps;
 }
