@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
+//#include <iostream>
 #include <algorithm>
 #include <cmath>
 #include "lab3_functions.hxx"
@@ -40,49 +40,12 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
     lowerSubset[lowerN] = dot0[amount-1];
     ++lowerN;
 
-/*
-    upperSubset[0] = dot0[0];
-    int upperN = 1;
-    lowerSubset[0] = dot0[0];
-    int lowerN = 1;
-    for(int i = 0; i < amount-1; ++i){
-        if(line0.isPointIsAbove(dot0[i])){
-            upperSubset[upperN] = dot0[i];
-            ++upperN;
-        }
-        else{
-            lowerSubset[lowerN] = dot0[i];
-            ++lowerN;
-        }
-    }
-    upperSubset[upperN] = dot0[amount-1];
-    ++upperN;
-    lowerSubset[lowerN] = dot0[amount-1];
-    ++lowerN;
-*/
 
 
-
-    //for(int i = 0; i < upperN; ++i){
-        //ans[i].position = sf::Vector2f(upperSubset[i].getPosition().x+radius,
-                                       //upperSubset[i].getPosition().y+radius);
-        //ans[i].color = sf::Color::Black;
-    //}
 
     int current = 0;
     sf::CircleShape elem = upperSubset[current];
-    /*
-    std::cout<<elem.getPosition().x-dot0[amount-1].getPosition().x <<std::endl;
-    if(abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps)
-        std::cout<<"+"<<std::endl;
-    else std::cout<<"-"<<std::endl;
-    if(i < upperN)
-        std::cout<<"+"<<std::endl;
-    else std::cout<<"-"<<std::endl;
-    if(abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps)
-        std::cout<<"+"<<std::endl;
-    else std::cout<<"-"<<std::endl;
-    */
+
 
     sf::VertexArray ans0(sf::LineStrip, amount);
     int ans0N = 1;
@@ -94,7 +57,6 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
           abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps){
         for(int i = current+1; i < upperN; ++i){
             Line tempLine(elem,upperSubset[i]);
-            std::cout<<"Vremennaja linija do uzla "<< i <<std::endl;
             int tempInt = -1, j = 0;
             bool checker1 = true;
             while(j < upperN && checker1){
@@ -104,12 +66,6 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
                             tempInt = 1;
                         else tempInt = 0;
                     }
-                    std::cout<<tempInt<<std::endl;
-                    if(tempLine.isPointIsAbove(upperSubset[j]))
-                        std::cout<<"+"<<std::endl;
-                    else std::cout<<"-"<<std::endl;
-                    std::cout<<std::endl;
-                    std::cout<<std::endl;
                     if((tempInt == 0) && tempLine.isPointIsAbove(upperSubset[j]))
                         checker1 = false;
                     if((tempInt == 1) && !(tempLine.isPointIsAbove(upperSubset[j])))
@@ -117,8 +73,6 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
                 }
                 ++j;
             }
-            std::cout<<"???"<<std::endl;
-            std::cout<<std::endl;
             if(checker1){
                 current = i;
                 elem = upperSubset[current];
@@ -140,7 +94,6 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
           abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps){
         for(int i = current; i < lowerN; ++i){
             Line tempLine(elem,lowerSubset[i]);
-            std::cout<<"Vremennaja linija do uzla "<< i <<std::endl;
             int tempInt = -1, j = 0;
             bool checker1 = true;
             while(j < lowerN && checker1){
@@ -150,12 +103,6 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
                             tempInt = 1;
                         else tempInt = 0;
                     }
-                    std::cout<<tempInt<<std::endl;
-                    if(tempLine.isPointIsAbove(lowerSubset[j]))
-                        std::cout<<"+"<<std::endl;
-                    else std::cout<<"-"<<std::endl;
-                    std::cout<<std::endl;
-                    std::cout<<std::endl;
                     if((tempInt == 0) && tempLine.isPointIsAbove(lowerSubset[j]))
                         checker1 = false;
                     if((tempInt == 1) && !(tempLine.isPointIsAbove(lowerSubset[j])))
@@ -163,8 +110,6 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
                 }
                 ++j;
             }
-            std::cout<<"???"<<std::endl;
-            std::cout<<std::endl;
             if(checker1){
                 current = i;
                 elem = lowerSubset[current];
@@ -181,11 +126,9 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
         ans[i].color = sf::Color::Black;
         ++ansN;
     }
-    //for(int i = 0; i < ans1N; ++i){
-        //ans[ansN+i].position = ans1[i].position;
-        //ans[ansN+i].color = sf::Color::Black;
-        //++ansN;
-    //}
-    std::cout<<"!!!!! "<<ans1N<<std::endl;
-    return ans0;
+    for(int i = 0; i < ans1N; ++i){
+        ans[ansN+i].position = ans1[ans1N-1-i].position;
+        ans[ansN+i].color = sf::Color::Black;
+    }
+    return ans;
 }
