@@ -1,15 +1,16 @@
 #include <SFML/Graphics.hpp>
 #include "lab3_line.hxx"
+#include "lab3_functions.hxx"
 
 Line::Line(float k, float b):Line(){
     setK(k);
     setB(b);
 }
-Line::Line(sf::Vector2f p, sf::Vector2f q):Line(){
-    float x1 = p.x;
-    float y1 = p.y;
-    float x2 = q.x;
-    float y2 = q.y;
+Line::Line(sf::CircleShape p, sf::CircleShape q):Line(){
+    float x1 = p.getPosition().x+radius;
+    float y1 = p.getPosition().y+radius;
+    float x2 = q.getPosition().x+radius;
+    float y2 = q.getPosition().y+radius;
     float k = (y2-y1)/(x2-x1);
     float b = y1-k*x1;
     setK(k);
@@ -29,6 +30,6 @@ void Line::setB(float b0){
     b = b0;
 }
 
-bool Line::ifPointIsAbove(sf::Vector2f v){
-    return getK()*v.x + getB() < v.y;
+bool Line::isPointIsAbove(sf::CircleShape p){
+    return getK()*(p.getPosition().x+radius) + getB() - (p.getPosition().y+radius) < eps;
 }
