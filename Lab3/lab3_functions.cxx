@@ -6,9 +6,6 @@
 #include "lab3_line.hxx"
 
 sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
-    sf::VertexArray ans(sf::LineStrip, amount);
-    int ansN = 1;
-
     sf::CircleShape dot0[amount];
     for(int i = 0; i< amount; ++i)
         dot0[i]=dot[i];
@@ -22,15 +19,14 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
             }
         }
     }
-
-    ans[0].position = sf::Vector2f(dot0[0].getPosition().x+radius,  dot0[0].getPosition().y+radius);
-    ans[0].color = sf::Color::Blue;
-
     Line line0(dot0[0], dot0[amount-1]);
     sf::CircleShape upperSubset[amount];
     sf::CircleShape lowerSubset[amount];
+
+
     int upperN = 0;
-    int lowerN = 0;
+    lowerSubset[0] = dot0[0];
+    int lowerN = 1;
     for(int i = 0; i < amount; ++i){
         if(line0.isPointIsAbove(dot0[i])){
             upperSubset[upperN] = dot0[i];
@@ -41,6 +37,31 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
             ++lowerN;
         }
     }
+    lowerSubset[lowerN] = dot0[amount-1];
+    ++lowerN;
+
+/*
+    upperSubset[0] = dot0[0];
+    int upperN = 1;
+    lowerSubset[0] = dot0[0];
+    int lowerN = 1;
+    for(int i = 0; i < amount-1; ++i){
+        if(line0.isPointIsAbove(dot0[i])){
+            upperSubset[upperN] = dot0[i];
+            ++upperN;
+        }
+        else{
+            lowerSubset[lowerN] = dot0[i];
+            ++lowerN;
+        }
+    }
+    upperSubset[upperN] = dot0[amount-1];
+    ++upperN;
+    lowerSubset[lowerN] = dot0[amount-1];
+    ++lowerN;
+*/
+
+
 
     //for(int i = 0; i < upperN; ++i){
         //ans[i].position = sf::Vector2f(upperSubset[i].getPosition().x+radius,
@@ -62,13 +83,19 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
         std::cout<<"+"<<std::endl;
     else std::cout<<"-"<<std::endl;
     */
-    int myDebug0 = 0;
+
+    sf::VertexArray ans0(sf::LineStrip, amount);
+    int ans0N = 1;
+    ans0[0].position = sf::Vector2f(dot0[0].getPosition().x+radius,  dot0[0].getPosition().y+radius);
+    ans0[0].color = sf::Color::Black;
+
     while(abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
-          && myDebug0 < 10 &&
+          &&
           abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps){
-        for(int i = current + 1; i < upperN; ++i){
+        for(int i = current+1; i < upperN; ++i){
             Line tempLine(elem,upperSubset[i]);
-            int tempInt = -1, j = current;
+            std::cout<<"Vremennaja linija do uzla "<< i <<std::endl;
+            int tempInt = -1, j = 0;
             bool checker1 = true;
             while(j < upperN && checker1){
                 if(j != current && j != i){
@@ -91,28 +118,74 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
                 ++j;
             }
             std::cout<<"???"<<std::endl;
+            std::cout<<std::endl;
             if(checker1){
                 current = i;
                 elem = upperSubset[current];
-                ans[ansN].position = sf::Vector2f(upperSubset[i].getPosition().x+radius,  upperSubset[i].getPosition().y+radius);
-                ans[ansN].color = sf::Color::Blue;
-                ++ansN;
+                ans0[ans0N].position = sf::Vector2f(upperSubset[i].getPosition().x+radius,  upperSubset[i].getPosition().y+radius);
+                ans0[ans0N].color = sf::Color::Black;
+                ++ans0N;
             }
         }
-        myDebug0++;
     }
 
-    //current = 0;
-    //while(lowerSubset[current].getPosition().x-dot0[amount - 1].getPosition().x > eps
-          //&&
-          //lowerSubset[current].getPosition().y-dot0[amount - 1].getPosition().y > eps){
-
+    sf::VertexArray ans1(sf::LineStrip, amount);
+    int ans1N = 0;
+    ans1[0].position = sf::Vector2f(dot0[0].getPosition().x+radius,  dot0[0].getPosition().y+radius);
+    ans1[0].color = sf::Color::Black;
+    current = 0;
+    elem = lowerSubset[current];
+    while(abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
+          &&
+          abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps){
+        for(int i = current; i < lowerN; ++i){
+            Line tempLine(elem,lowerSubset[i]);
+            std::cout<<"Vremennaja linija do uzla "<< i <<std::endl;
+            int tempInt = -1, j = 0;
+            bool checker1 = true;
+            while(j < lowerN && checker1){
+                if(j != current && j != i){
+                    if(tempInt == -1){
+                        if(tempLine.isPointIsAbove(lowerSubset[j]))
+                            tempInt = 1;
+                        else tempInt = 0;
+                    }
+                    std::cout<<tempInt<<std::endl;
+                    if(tempLine.isPointIsAbove(lowerSubset[j]))
+                        std::cout<<"+"<<std::endl;
+                    else std::cout<<"-"<<std::endl;
+                    std::cout<<std::endl;
+                    std::cout<<std::endl;
+                    if((tempInt == 0) && tempLine.isPointIsAbove(lowerSubset[j]))
+                        checker1 = false;
+                    if((tempInt == 1) && !(tempLine.isPointIsAbove(lowerSubset[j])))
+                        checker1 = false;
+                }
+                ++j;
+            }
+            std::cout<<"???"<<std::endl;
+            std::cout<<std::endl;
+            if(checker1){
+                current = i;
+                elem = lowerSubset[current];
+                ans1[ans1N].position = sf::Vector2f(lowerSubset[i].getPosition().x+radius,  lowerSubset[i].getPosition().y+radius);
+                ans1[ans1N].color = sf::Color::Black;
+                ++ans1N;
+            }
+        }
+    }
+    sf::VertexArray ans(sf::LineStrip, ans0N+ans1N);
+    int ansN = 0;
+    for(int i = 0; i < ans0N; ++i){
+        ans[i].position = ans0[i].position;
+        ans[i].color = sf::Color::Black;
+        ++ansN;
+    }
+    //for(int i = 0; i < ans1N; ++i){
+        //ans[ansN+i].position = ans1[i].position;
+        //ans[ansN+i].color = sf::Color::Black;
+        //++ansN;
     //}
-    //for(int i = 0; i < upperN; ++i){
-
-    //}
-    //for(int i = 0; i < lowerN; ++i){
-
-    //}
-    return ans;
+    std::cout<<"!!!!! "<<ans1N<<std::endl;
+    return ans0;
 }
