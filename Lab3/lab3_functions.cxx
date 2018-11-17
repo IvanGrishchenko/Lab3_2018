@@ -58,9 +58,9 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
     sf::CircleShape elem = upperSubset[current];
 
     int counter = amount;
-    while(abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
-          && counter &&
-          abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps){
+    while((abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
+          ||
+          abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps) && counter){
         for(int i = current+1; i < upperN; ++i){
             Line tempLine(elem,upperSubset[i]);
             int tempInt = -1, j = 0;
@@ -97,9 +97,9 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
     current = 0;
     elem = lowerSubset[current];
     counter = amount;
-    while(abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
-          && counter &&
-          abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps){
+    while((abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
+          ||
+          abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps) && counter){
         for(int i = current+1; i < lowerN; ++i){
             Line tempLine(elem,lowerSubset[i]);
             int tempInt = -1, j = 0;
