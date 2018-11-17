@@ -2,8 +2,15 @@
 #include <SFML/Graphics.hpp>
 #include "lab3_functions.hxx"
 #include "lab3_line.hxx"
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
 
 int main(){
+    unsigned int seed = 15;//5 nichego ne risuet 15 nepravilno
+    srand(seed);
+    //srand(time(0));
     sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");
 
     sf::CircleShape dot[amount];
