@@ -8,7 +8,7 @@
 using namespace std;
 
 int main(){
-    unsigned int seed = 22;//22 7 6 5 570360921 19 wrong
+    unsigned int seed = 19;//22 7 6 5 570360921 19 wrong
     srand(seed);
     //srand(time(0));
     sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");

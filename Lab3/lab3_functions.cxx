@@ -71,9 +71,7 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
                             tempInt = 1;
                         else tempInt = 0;
                     }
-                    if((tempInt == 0) && tempLine.isPointIsAbove(upperSubset[j]))
-                        checker1 = false;
-                    if((tempInt == 1) && !(tempLine.isPointIsAbove(upperSubset[j])))
+                    else if(tempLine.isPointIsAbove(upperSubset[j]) != tempInt)
                         checker1 = false;
                 }
                 ++j;
@@ -110,9 +108,7 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
                             tempInt = 1;
                         else tempInt = 0;
                     }
-                    if((tempInt == 0) && tempLine.isPointIsAbove(lowerSubset[j]))
-                        checker1 = false;
-                    if((tempInt == 1) && !(tempLine.isPointIsAbove(lowerSubset[j])))
+                    else if(tempLine.isPointIsAbove(lowerSubset[j]) != tempInt)
                         checker1 = false;
                 }
                 ++j;
@@ -120,7 +116,7 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
             if(checker1){
                 current = i;
                 elem = lowerSubset[current];
-                ans1[ans1N].position = sf::Vector2f(elem.getPosition().x+radius,  elem.getPosition().y+radius);
+                ans1[ans1N].position = sf::Vector2f(elem.getPosition().x+radius, elem.getPosition().y+radius);
                 ans1[ans1N].color = sf::Color::Black;
                 ++ans1N;
             }
