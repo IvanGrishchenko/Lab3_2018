@@ -8,34 +8,44 @@
 using namespace std;
 
 int main(){
-    unsigned int seed = 19;//22 7 6 5 570360921 19 wrong
-    srand(seed);
-    //srand(time(0));
-    sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");
+    for(unsigned int s = 0; s < amount; ++s){
+        sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");
 
-    sf::CircleShape dot[amount];
-    for(int i = 0; i < amount; ++i){
-        sf::CircleShape temp(radius);
-        temp.setFillColor(sf::Color::Black);
-        float a = static_cast<float>(100+rand()%800);
-        float b = static_cast<float>(100+rand()%400);
-        temp.setPosition(a, b);
-        dot[i] = temp;
-    }
+        unsigned int x = time(0)+s;
+        srand(x);
 
-    sf::VertexArray lines = andrewJarvis(dot);
+        sf::Font font;
+        font.loadFromFile("times.ttf");
+        sf::Text text("seed = " + to_string(x), font);
+        text.setCharacterSize(20);
+        text.setFillColor(sf::Color::Black);
+        text.setPosition(10,10);
 
-    while (window.isOpen()){
-        sf::Event event;
-        while (window.pollEvent(event)){
-            if (event.type == sf::Event::Closed)
-                window.close();
+        sf::CircleShape dot[amount];
+        for(int i = 0; i < amount; ++i){
+            sf::CircleShape temp(radius);
+            temp.setFillColor(sf::Color::Black);
+            float a = static_cast<float>(100+rand()%800);
+            float b = static_cast<float>(100+rand()%400);
+            temp.setPosition(a, b);
+            dot[i] = temp;
         }
-        window.clear(sf::Color::White);
-        window.draw(lines);
-        for(int i = 0; i< amount; ++i)
-            window.draw(dot[i]);
-        window.display();
+
+        sf::VertexArray lines = andrewJarvis(dot);
+
+        while (window.isOpen()){
+            sf::Event event;
+            while (window.pollEvent(event)){
+                if (event.type == sf::Event::Closed)
+                    window.close();
+            }
+            window.clear(sf::Color::White);
+            window.draw(text);
+            window.draw(lines);
+            for(int i = 0; i< amount; ++i)
+                window.draw(dot[i]);
+            window.display();
+        }
     }
     return 0;
 }
