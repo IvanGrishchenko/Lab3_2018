@@ -39,6 +39,17 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
     lowerSubset[lowerN] = dot0[amount-1];
     ++lowerN;
 
+/*
+    sf::VertexArray ans(sf::LineStrip, amount);
+    for(int i = 0; i < upperN; ++i){
+        ans[i].position = sf::Vector2f(upperSubset[i].getPosition().x+radius,
+                                       upperSubset[i].getPosition().y+radius);
+        ans[i].color = sf::Color::Black;
+    }
+*/
+
+
+///*
     sf::VertexArray ans0(sf::LineStrip, amount);
     int ans0N = 1;
     ans0[0].position = sf::Vector2f(dot0[0].getPosition().x+radius,  dot0[0].getPosition().y+radius);
@@ -129,6 +140,6 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
         ans[ansN+i].position = ans1[ans1N-1-i].position;
         ans[ansN+i].color = sf::Color::Black;
     }
-
+//*/
     return ans;
 }

@@ -3,7 +3,7 @@
 
 const int amount = 20;
 const float radius = 4;
-const float eps = 5;
+const float eps = 2;
 
 sf::VertexArray andrewJarvis(const sf::CircleShape dot[]);
 

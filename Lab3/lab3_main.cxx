@@ -8,7 +8,7 @@
 using namespace std;
 
 int main(){
-    unsigned int seed = 15;//5 nichego ne risuet 15 nepravilno
+    unsigned int seed = 199288722;//570360921 379108449 crash 199288722 wrong
     srand(seed);
     //srand(time(0));
     sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");
