@@ -52,11 +52,10 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
 ///*
     sf::VertexArray ans0(sf::LineStrip, amount);
     int ans0N = 1;
-    ans0[0].position = sf::Vector2f(dot0[0].getPosition().x+radius,  dot0[0].getPosition().y+radius);
+    ans0[0].position = sf::Vector2f(upperSubset[0].getPosition().x+radius,  upperSubset[0].getPosition().y+radius);
     ans0[0].color = sf::Color::Black;
     int current = 0;
     sf::CircleShape elem = upperSubset[current];
-
     int counter = amount;
     while((abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
           ||
@@ -82,7 +81,7 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
             if(checker1){
                 current = i;
                 elem = upperSubset[current];
-                ans0[ans0N].position = sf::Vector2f(upperSubset[i].getPosition().x+radius,  upperSubset[i].getPosition().y+radius);
+                ans0[ans0N].position = sf::Vector2f(elem.getPosition().x+radius, elem.getPosition().y+radius);
                 ans0[ans0N].color = sf::Color::Black;
                 ++ans0N;
             }
@@ -92,7 +91,7 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
 
     sf::VertexArray ans1(sf::LineStrip, amount);
     int ans1N = 1;
-    ans1[0].position = sf::Vector2f(dot0[0].getPosition().x+radius,  dot0[0].getPosition().y+radius);
+    ans1[0].position = sf::Vector2f(lowerSubset[0].getPosition().x+radius,  lowerSubset[0].getPosition().y+radius);
     ans1[0].color = sf::Color::Black;
     current = 0;
     elem = lowerSubset[current];
@@ -121,7 +120,7 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
             if(checker1){
                 current = i;
                 elem = lowerSubset[current];
-                ans1[ans1N].position = sf::Vector2f(lowerSubset[i].getPosition().x+radius,  lowerSubset[i].getPosition().y+radius);
+                ans1[ans1N].position = sf::Vector2f(elem.getPosition().x+radius,  elem.getPosition().y+radius);
                 ans1[ans1N].color = sf::Color::Black;
                 ++ans1N;
             }
