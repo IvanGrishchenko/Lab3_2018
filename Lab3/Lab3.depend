@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1542462816 source:c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_main.cxx
+1542468383 source:c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_main.cxx
 	<SFML/Graphics.hpp>
 	"lab3_functions.hxx"
 	"lab3_line.hxx"
@@ -415,19 +415,19 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1542461277 source:c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_functions.cxx
+1542468339 source:c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_functions.cxx
 	<SFML/Graphics.hpp>
 	<algorithm>
 	<cmath>
 	"lab3_functions.hxx"
 	"lab3_line.hxx"
 
-1542461403 c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_functions.hxx
+1542464114 c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_functions.hxx
 
 1542296906 c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_line.hxx
 	<SFML/Graphics.hpp>
 
-1542462181 source:c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_line.cxx
+1542468064 source:c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_line.cxx
 	<SFML/Graphics.hpp>
 	"lab3_line.hxx"
 	"lab3_functions.hxx"
