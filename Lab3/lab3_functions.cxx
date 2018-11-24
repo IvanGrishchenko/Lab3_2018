@@ -5,24 +5,24 @@
 #include "lab3_functions.hxx"
 #include "lab3_line.hxx"
 
-sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
-    sf::CircleShape dot0[amount];
+sf::VertexArray andrewJarvis(const sf::VertexArray dot){
+    sf::VertexArray dot0(sf::Points, amount);
     for(int i = 0; i< amount; ++i)
-        dot0[i]=dot[i];
-    sf::CircleShape temp;
+        dot0[i].position = dot[i].position;
+    sf::Vertex temp;
     for (int i = 0; i < amount - 1; ++i) {
         for (int j = 0; j < amount - i - 1; ++j) {
-            if (dot0[j].getPosition().x > dot0[j + 1].getPosition().x) {
-                temp = dot0[j];
-                dot0[j] = dot0[j + 1];
-                dot0[j + 1] = temp;
+            if (dot0[j].position.x > dot0[j + 1].position.x) {
+                temp.position = dot0[j].position;
+                dot0[j].position = dot0[j + 1].position;
+                dot0[j + 1].position = temp.position;
             }
         }
     }
     Line line0(dot0[0], dot0[amount-1]);
 
-    sf::CircleShape upperSubset[amount];
-    sf::CircleShape lowerSubset[amount];
+    sf::VertexArray upperSubset(sf::Points, amount);
+    sf::VertexArray lowerSubset(sf::Points, amount);
     int upperN = 0;
     lowerSubset[0] = dot0[0];
     int lowerN = 1;
@@ -41,14 +41,14 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
 
     sf::VertexArray ans0(sf::LineStrip, amount);
     int ans0N = 1;
-    ans0[0].position = sf::Vector2f(upperSubset[0].getPosition().x+radius,  upperSubset[0].getPosition().y+radius);
+    ans0[0].position = sf::Vector2f(upperSubset[0].position.x,  upperSubset[0].position.y);
     ans0[0].color = sf::Color::Black;
     int current = 0;
-    sf::CircleShape elem = upperSubset[current];
+    sf::Vertex elem = upperSubset[current];
     int counter = amount;
-    while((abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
+    while((abs(elem.position.x-dot0[amount-1].position.x) > eps
           ||
-          abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps) && counter){
+          abs(elem.position.y-dot0[amount-1].position.y) > eps) && counter){
         for(int i = current+1; i < upperN; ++i){
             Line tempLine(elem,upperSubset[i]);
             int tempInt = -1, j = 0;
@@ -68,7 +68,7 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
             if(checker1){
                 current = i;
                 elem = upperSubset[current];
-                ans0[ans0N].position = sf::Vector2f(elem.getPosition().x+radius, elem.getPosition().y+radius);
+                ans0[ans0N].position = sf::Vector2f(elem.position.x, elem.position.y);
                 ans0[ans0N].color = sf::Color::Black;
                 ++ans0N;
             }
@@ -78,14 +78,14 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
 
     sf::VertexArray ans1(sf::LineStrip, amount);
     int ans1N = 1;
-    ans1[0].position = sf::Vector2f(lowerSubset[0].getPosition().x+radius,  lowerSubset[0].getPosition().y+radius);
+    ans1[0].position = sf::Vector2f(lowerSubset[0].position.x,  lowerSubset[0].position.y);
     ans1[0].color = sf::Color::Black;
     current = 0;
     elem = lowerSubset[current];
     counter = amount;
-    while((abs(elem.getPosition().x-dot0[amount-1].getPosition().x) > eps
+    while((abs(elem.position.x-dot0[amount-1].position.x) > eps
           ||
-          abs(elem.getPosition().y-dot0[amount-1].getPosition().y) > eps) && counter){
+          abs(elem.position.y-dot0[amount-1].position.y) > eps) && counter){
         for(int i = current+1; i < lowerN; ++i){
             Line tempLine(elem,lowerSubset[i]);
             int tempInt = -1, j = 0;
@@ -105,7 +105,7 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
             if(checker1){
                 current = i;
                 elem = lowerSubset[current];
-                ans1[ans1N].position = sf::Vector2f(elem.getPosition().x+radius, elem.getPosition().y+radius);
+                ans1[ans1N].position = sf::Vector2f(elem.position.x, elem.position.y);
                 ans1[ans1N].color = sf::Color::Black;
                 ++ans1N;
             }
@@ -126,9 +126,9 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
     }
     return ans;
 }
-sf::VertexArray fortune(const sf::CircleShape dot[]){
+sf::VertexArray fortune(const sf::VertexArray dot){
     sf::VertexArray ans(sf::Lines, 6*amount-4);
-    int ansN = 8;
+    //int ansN = 8;
     for(int i = 0; i < 6*amount-4; ++i)
         ans[i].color = sf::Color::Black;
     ans[0].position = sf::Vector2f(100, 100);

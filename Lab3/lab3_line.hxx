@@ -10,7 +10,7 @@ protected:
     float b = 0;
 public:
     Line() = default;
-    Line(sf::CircleShape p, sf::CircleShape q);
+    Line(sf::Vertex p, sf::Vertex q);
     Line(float k, float b);
 
     float getK();
@@ -18,7 +18,7 @@ public:
     void setK(float k0);
     void setB(float b0);
 
-    bool isPointIsAbove(sf::CircleShape p);
+    bool isPointIsAbove(sf::Vertex p);
 };
 
 #endif // LAB3_LINE_HXX_INCLUDED

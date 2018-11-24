@@ -7,11 +7,18 @@
 
 using namespace std;
 
+void drawDot(sf::RenderWindow& window, sf::Vertex dot){
+    sf::CircleShape shape(radius);
+    shape.setPosition(sf::Vector2f(dot.position.x - radius, dot.position.y - radius));
+    shape.setFillColor(sf::Color::Black);
+    window.draw(shape);
+}
+
 int main(){
     for(unsigned int s = 0; s < tests; ++s){
         sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");
 
-        unsigned int x = 1;//time(0)+s;
+        unsigned int x = time(0)+s;
         srand(x);
 
         sf::Font font;
@@ -21,18 +28,15 @@ int main(){
         text.setFillColor(sf::Color::Black);
         text.setPosition(10,10);
 
-        sf::CircleShape dot[amount];
+        sf::VertexArray dot(sf::Points, amount);
         for(int i = 0; i < amount; ++i){
-            sf::CircleShape temp(radius);
-            temp.setFillColor(sf::Color::Black);
             float a = static_cast<float>(100+rand()%800);
             float b = static_cast<float>(100+rand()%400);
-            temp.setPosition(a, b);
-            dot[i] = temp;
+            dot[i].position = sf::Vector2f(a, b);
         }
 
-        //sf::VertexArray lines = andrewJarvis(dot);
-        sf::VertexArray lines = fortune(dot);
+        sf::VertexArray lines = andrewJarvis(dot);
+        //sf::VertexArray lines = fortune(dot);
 
         while (window.isOpen()){
             sf::Event event;
@@ -44,7 +48,7 @@ int main(){
             window.draw(text);
             window.draw(lines);
             for(int i = 0; i< amount; ++i)
-                window.draw(dot[i]);
+                drawDot(window, dot[i]);
             window.display();
         }
     }
