@@ -126,3 +126,18 @@ sf::VertexArray andrewJarvis(const sf::CircleShape dot[]){
     }
     return ans;
 }
+sf::VertexArray fortune(const sf::CircleShape dot[]){
+    sf::VertexArray ans(sf::Lines, 6*amount-4);
+    int ansN = 8;
+    for(int i = 0; i < 6*amount-4; ++i)
+        ans[i].color = sf::Color::Black;
+    ans[0].position = sf::Vector2f(100, 100);
+    ans[1].position = sf::Vector2f(900, 100);
+    ans[2].position = sf::Vector2f(900, 100);
+    ans[3].position = sf::Vector2f(900, 500);
+    ans[4].position = sf::Vector2f(900, 500);
+    ans[5].position = sf::Vector2f(100, 500);
+    ans[6].position = sf::Vector2f(100, 500);
+    ans[7].position = sf::Vector2f(100, 100);
+    return ans;
+}

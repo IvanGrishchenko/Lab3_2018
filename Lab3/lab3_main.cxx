@@ -32,6 +32,7 @@ int main(){
         }
 
         //sf::VertexArray lines = andrewJarvis(dot);
+        sf::VertexArray lines = fortune(dot);
 
         while (window.isOpen()){
             sf::Event event;
@@ -41,7 +42,7 @@ int main(){
             }
             window.clear(sf::Color::White);
             window.draw(text);
-            //window.draw(lines);
+            window.draw(lines);
             for(int i = 0; i< amount; ++i)
                 window.draw(dot[i]);
             window.display();
