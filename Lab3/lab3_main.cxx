@@ -8,10 +8,10 @@
 using namespace std;
 
 int main(){
-    for(unsigned int s = 0; s < amount; ++s){
+    for(unsigned int s = 0; s < tests; ++s){
         sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");
 
-        unsigned int x = time(0)+s;
+        unsigned int x = 1;//time(0)+s;
         srand(x);
 
         sf::Font font;
@@ -31,7 +31,7 @@ int main(){
             dot[i] = temp;
         }
 
-        sf::VertexArray lines = andrewJarvis(dot);
+        //sf::VertexArray lines = andrewJarvis(dot);
 
         while (window.isOpen()){
             sf::Event event;
@@ -41,7 +41,7 @@ int main(){
             }
             window.clear(sf::Color::White);
             window.draw(text);
-            window.draw(lines);
+            //window.draw(lines);
             for(int i = 0; i< amount; ++i)
                 window.draw(dot[i]);
             window.display();
