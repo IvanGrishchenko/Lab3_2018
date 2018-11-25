@@ -14,17 +14,8 @@ void drawDot(sf::RenderWindow& window, sf::Vertex dot){
     window.draw(shape);
 }
 
-void drawInfo(sf::RenderWindow& window, const unsigned int x){
-    sf::Font font;
-    font.loadFromFile("times.ttf");
-    sf::Text text("seed = " + to_string(x), font);
-    text.setCharacterSize(20);
-    text.setFillColor(sf::Color::Black);
-    text.setPosition(10,10);
-    window.draw(text);
-}
-
 sf::VertexArray generateDots(){
+    srand(time(0));
     sf::VertexArray dot(sf::Points, amount);
     for(int i = 0; i < amount; ++i){
         float a = static_cast<float>(100+rand()%800);
@@ -35,8 +26,6 @@ sf::VertexArray generateDots(){
 }
 int main(){
     sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");
-    unsigned int x = time(0);
-    srand(x);
     sf::VertexArray dot = generateDots();
     //sf::VertexArray lines = andrewJarvis(dot);
     //sf::VertexArray lines = fortune(dot);
@@ -47,8 +36,6 @@ int main(){
             if (event.type == sf::Event::Closed)
                 window.close();
             else if (event.type == sf::Event::KeyReleased && event.key.code == sf::Keyboard::Key::Space){
-                x = time(0);
-                srand(x);
                 dot = generateDots();
                 //lines = andrewJarvis(dot);
                 //lines = fortune(dot);
@@ -57,7 +44,6 @@ int main(){
 
         }
         window.clear(sf::Color::White);
-        drawInfo(window, x);
         window.draw(lines);
         for(int i = 0; i< amount; ++i)
             drawDot(window, dot[i]);
