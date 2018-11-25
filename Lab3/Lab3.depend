@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1543147895 source:c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_main.cxx
+1543150487 source:c:\users\alexander\desktop\cpp\2019\lab3_2018\lab3\lab3_main.cxx
 	<SFML/Graphics.hpp>
 	"lab3_functions.hxx"
 	"lab3_line.hxx"
