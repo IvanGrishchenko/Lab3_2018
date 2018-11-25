@@ -44,7 +44,6 @@ sf::VertexArray andrewJarvis(const sf::VertexArray dot){
     sf::VertexArray ans0(sf::LineStrip, amount);
     int ans0N = 1;
     ans0[0].position = sf::Vector2f(upperSubset[0].position.x,  upperSubset[0].position.y);
-    ans0[0].color = sf::Color::Black;
     int current = 0;
     sf::Vertex elem = upperSubset[current];
     int counter = amount;
@@ -71,7 +70,6 @@ sf::VertexArray andrewJarvis(const sf::VertexArray dot){
                 current = i;
                 elem = upperSubset[current];
                 ans0[ans0N].position = sf::Vector2f(elem.position.x, elem.position.y);
-                ans0[ans0N].color = sf::Color::Black;
                 ++ans0N;
             }
         }
@@ -81,7 +79,6 @@ sf::VertexArray andrewJarvis(const sf::VertexArray dot){
     sf::VertexArray ans1(sf::LineStrip, amount);
     int ans1N = 1;
     ans1[0].position = sf::Vector2f(lowerSubset[0].position.x,  lowerSubset[0].position.y);
-    ans1[0].color = sf::Color::Black;
     current = 0;
     elem = lowerSubset[current];
     counter = amount;
@@ -108,7 +105,6 @@ sf::VertexArray andrewJarvis(const sf::VertexArray dot){
                 current = i;
                 elem = lowerSubset[current];
                 ans1[ans1N].position = sf::Vector2f(elem.position.x, elem.position.y);
-                ans1[ans1N].color = sf::Color::Black;
                 ++ans1N;
             }
         }
@@ -262,19 +258,15 @@ sf::VertexArray recursive(const sf::VertexArray dot){
     sf::VertexArray ans0(sf::LineStrip, amount);
     int ans0N = 1;
     ans0[0].position = sf::Vector2f(upperSubset[0].position.x,  upperSubset[0].position.y);
-    ans0[0].color = sf::Color::Black;
     recursive0(upperSubset, upperN, ans0, ans0N, true);
     ans0[ans0N].position = sf::Vector2f(upperSubset[upperN-1].position.x,  upperSubset[upperN-1].position.y);
-    ans0[ans0N].color = sf::Color::Black;
     ++ans0N;
 
     sf::VertexArray ans1(sf::LineStrip, amount);
     int ans1N = 1;
     ans1[0].position = sf::Vector2f(lowerSubset[0].position.x,  lowerSubset[0].position.y);
-    ans1[0].color = sf::Color::Black;
     recursive0(lowerSubset, lowerN, ans1, ans1N, false);
     ans1[ans1N].position = sf::Vector2f(lowerSubset[lowerN-1].position.x,  lowerSubset[lowerN-1].position.y);
-    ans1[ans1N].color = sf::Color::Black;
     ++ans1N;
 
     sortVertexArray(ans0, ans0N);
