@@ -4,7 +4,7 @@
 const int amount = 12;
 const float radius = 4;
 const float eps = 0.0005;
-const unsigned int tests = 1;
+const unsigned int tests = 10;
 
 sf::VertexArray andrewJarvis(const sf::VertexArray dot);
 sf::VertexArray fortune(const sf::VertexArray dot);

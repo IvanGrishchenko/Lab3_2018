@@ -207,7 +207,7 @@ void recursive0(const sf::VertexArray dot, const int dotN, sf::VertexArray& ans,
         }
         recursive0(subset0, sub0N, ans, ansN, checker);
 
-        Line line1(dot[0], dot[h]);
+        Line line1(dot[h], dot[dotN-1]);
         sf::VertexArray subset1(sf::Points, dotN);
         int sub1N;
         if(checker){
@@ -264,16 +264,22 @@ sf::VertexArray recursive(const sf::VertexArray dot){
     ans0[0].position = sf::Vector2f(upperSubset[0].position.x,  upperSubset[0].position.y);
     ans0[0].color = sf::Color::Black;
     recursive0(upperSubset, upperN, ans0, ans0N, true);
+    ans0[ans0N].position = sf::Vector2f(upperSubset[upperN-1].position.x,  upperSubset[upperN-1].position.y);
+    ans0[ans0N].color = sf::Color::Black;
+    ++ans0N;
 
     sf::VertexArray ans1(sf::LineStrip, amount);
     int ans1N = 1;
     ans1[0].position = sf::Vector2f(lowerSubset[0].position.x,  lowerSubset[0].position.y);
     ans1[0].color = sf::Color::Black;
     recursive0(lowerSubset, lowerN, ans1, ans1N, false);
+    ans1[ans1N].position = sf::Vector2f(lowerSubset[lowerN-1].position.x,  lowerSubset[lowerN-1].position.y);
+    ans1[ans1N].color = sf::Color::Black;
+    ++ans1N;
 
     sortVertexArray(ans0, ans0N);
     sortVertexArray(ans1, ans1N);
-    /*
+
     sf::VertexArray ans(sf::LineStrip, ans0N+ans1N);
     int ansN = 0;
     for(int i = 0; i < ans0N; ++i){
@@ -285,13 +291,5 @@ sf::VertexArray recursive(const sf::VertexArray dot){
         ans[ansN+i].position = ans1[ans1N-1-i].position;
         ans[ansN+i].color = sf::Color::Black;
     }
-    //*/
-//*
-    sf::VertexArray ans(sf::LineStrip, ans1N);
-    for(int i = 0; i < ans1N; ++i){
-        ans[i].position = ans1[i].position;
-        ans[i].color = sf::Color::Black;
-    }
-//*/
     return ans;
 }

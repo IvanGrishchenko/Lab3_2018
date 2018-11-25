@@ -18,7 +18,7 @@ int main(){
     for(unsigned int s = 0; s < tests; ++s){
         sf::RenderWindow window(sf::VideoMode(1000, 600), "Lab3");
 
-        unsigned int x = 1;//time(0)+s;
+        unsigned int x = time(0)+s;
         srand(x);
 
         sf::Font font;
