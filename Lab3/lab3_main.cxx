@@ -23,6 +23,7 @@ int main(){
                 //lines = andrewJarvis(dot);
                 andrewJarvisAnimate(window, dot);
                 //lines = recursive(dot);
+                //recursiveAnimate(window, dot);
             }
 
         }

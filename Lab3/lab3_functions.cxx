@@ -331,13 +331,13 @@ void drawEdge(sf::RenderWindow& window, const sf::Vertex& dot0, const sf::Vertex
             break;
         }
         case 2:{
-            ans[0].color = sf::Color(255, 0, 0, 102);
-            ans[1].color = sf::Color(255, 0, 0, 102);
+            ans[0].color = sf::Color(255, 0, 0, 63);
+            ans[1].color = sf::Color(255, 0, 0, 63);
             break;
         }
         case 3:{
-            ans[0].color = sf::Color(0, 0, 255, 102);
-            ans[1].color = sf::Color(0, 0, 255, 102);
+            ans[0].color = sf::Color(0, 0, 255, 63);
+            ans[1].color = sf::Color(0, 0, 255, 63);
             break;
         }
     }
@@ -455,16 +455,165 @@ void andrewJarvisAnimate(sf::RenderWindow& window, sf::VertexArray dot){
         }
         --counter;
     }
+}
+
+void recursive0Animate(sf::RenderWindow& window, const sf::VertexArray dot, const int dotN, sf::VertexArray& ans, int& ansN, const bool checker){
+    if(dotN > 2){
+        int h = -1;
+        float tempArea = -1;
+        float biggestArea = -1;
+        for(int i = 1; i < dotN - 1; ++i){
+            tempArea = triangleArea(dot[0], dot[i], dot[dotN-1]);
+            if(checker){
+                drawEdge(window, dot[0], dot[i], 2);
+                drawEdge(window, dot[0], dot[dotN-1], 2);
+                drawEdge(window, dot[i], dot[dotN-1], 2);
+            }
+            else{
+                drawEdge(window, dot[0], dot[i], 3);
+                drawEdge(window, dot[0], dot[dotN-1], 3);
+                drawEdge(window, dot[i], dot[dotN-1], 3);
+            }
+            if(biggestArea < tempArea){
+                h = i;
+                biggestArea = tempArea;
+            }
+            else if(biggestArea == tempArea){
+                float a = cosA(dot[0], dot[h], dot[dotN-1]);
+                float b = cosA(dot[0], dot[i], dot[dotN-1]);
+                if(a > b){
+                    h = i;
+                    biggestArea = tempArea;
+                }
+            }
+        }
+        ans[ansN].position = dot[h].position;
+        ++ansN;
+
+        Line line0(dot[0], dot[h]);
+        drawEdge(window, dot[0], dot[h], 1);
+        sf::VertexArray subset0(sf::Points, dotN);
+        int sub0N;
+        if(checker){
+            sub0N = 0;
+            for(int i = 0; i < dotN; ++i){
+                if(line0.isPointIsAbove(dot[i])){
+                    subset0[sub0N] = dot[i];
+                    ++sub0N;
+                }
+            }
+        }
+        else{
+            subset0[0] = dot[0];
+            sub0N = 1;
+            for(int i = 0; i < dotN; ++i){
+                if(!(line0.isPointIsAbove(dot[i]))){
+                    subset0[sub0N] = dot[i];
+                    ++sub0N;
+                }
+            }
+            subset0[sub0N] = dot[dotN-1];
+            ++sub0N;
+        }
+        recursive0Animate(window, subset0, sub0N, ans, ansN, checker);
+
+        Line line1(dot[h], dot[dotN-1]);
+        drawEdge(window, dot[dotN-1], dot[h], 1);
+        sf::VertexArray subset1(sf::Points, dotN);
+        int sub1N;
+        if(checker){
+            sub1N = 0;
+            for(int i = 0; i < dotN; ++i){
+                if(line1.isPointIsAbove(dot[i])){
+                    subset1[sub1N] = dot[i];
+                    ++sub1N;
+                }
+            }
+        }
+        else{
+            subset1[0] = dot[0];
+            sub1N = 1;
+            for(int i = 0; i < dotN; ++i){
+                if(!(line1.isPointIsAbove(dot[i]))){
+                    subset1[sub1N] = dot[i];
+                    ++sub1N;
+                }
+            }
+            subset1[sub1N] = dot[dotN-1];
+            ++sub1N;
+        }
+        recursive0Animate(window, subset1, sub1N, ans, ansN, checker);
+    }
+}
+
+void recursiveAnimate(sf::RenderWindow& window, sf::VertexArray dot){
+    window.clear(sf::Color::White);
+    for(int i = 0; i< amount; ++i){
+        drawDot(window, dot[i], 0);
+    }
+    sf::VertexArray dot0(sf::Points, amount);
+    for(int i = 0; i < amount; ++i)
+        dot0[i].position = dot[i].position;
+    sortVertexArray(dot0, amount);
+    std::this_thread::sleep_for(std::chrono::milliseconds(750));
+    drawDot(window, dot0[0], 1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(750));
+    drawDot(window, dot0[amount-1], 1);
+    Line line0(dot0[0], dot0[amount-1]);
+    drawEdge(window, dot0[0], dot0[amount-1], 1);
+
+    sf::VertexArray upperSubset(sf::Points, amount);
+    sf::VertexArray lowerSubset(sf::Points, amount);
+    int upperN = 0;
+    lowerSubset[0] = dot0[0];
+    int lowerN = 1;
+    for(int i = 0; i < amount; ++i){
+        if(line0.isPointIsAbove(dot0[i])){
+            if(i != 0 && i != (amount-1))
+                drawDot(window, dot0[i], 2);
+            upperSubset[upperN] = dot0[i];
+            ++upperN;
+        }
+        else{
+            lowerSubset[lowerN] = dot0[i];
+            drawDot(window, dot0[i], 3);
+            ++lowerN;
+        }
+    }
+    lowerSubset[lowerN] = dot0[amount-1];
+    ++lowerN;
+
+    sf::VertexArray ans0(sf::LineStrip, amount);
+    int ans0N = 1;
+    ans0[0].position = sf::Vector2f(upperSubset[0].position.x,  upperSubset[0].position.y);
+    recursive0Animate(window, upperSubset, upperN, ans0, ans0N, true);
+    ans0[ans0N].position = sf::Vector2f(upperSubset[upperN-1].position.x,  upperSubset[upperN-1].position.y);
+    ++ans0N;
+
+    sf::VertexArray ans1(sf::LineStrip, amount);
+    int ans1N = 1;
+    ans1[0].position = sf::Vector2f(lowerSubset[0].position.x,  lowerSubset[0].position.y);
+    recursive0Animate(window, lowerSubset, lowerN, ans1, ans1N, false);
+    ans1[ans1N].position = sf::Vector2f(lowerSubset[lowerN-1].position.x,  lowerSubset[lowerN-1].position.y);
+    ++ans1N;
+
+    sortVertexArray(ans0, ans0N);
+    sortVertexArray(ans1, ans1N);
 
     sf::VertexArray ans(sf::LineStrip, ans0N+ans1N);
-    int ansN = 0;
-    for(int i = 0; i < ans0N; ++i){
+    int ansN = 1;
+    ans[0].position = ans0[0].position;
+    ans[0].color = sf::Color::Black;
+
+    for(int i = 1; i < ans0N; ++i){
         ans[i].position = ans0[i].position;
         ans[i].color = sf::Color::Black;
+        drawEdge(window, ans[i], ans[i-1], 0);
         ++ansN;
     }
     for(int i = 0; i < ans1N; ++i){
         ans[ansN+i].position = ans1[ans1N-1-i].position;
         ans[ansN+i].color = sf::Color::Black;
+        drawEdge(window, ans[ansN+i], ans[ansN+i-1], 0);
     }
 }
