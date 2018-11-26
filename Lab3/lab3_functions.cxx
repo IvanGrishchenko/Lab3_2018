@@ -2,14 +2,38 @@
 //#include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <chrono>
+#include <thread>
 #include "lab3_functions.hxx"
 #include "lab3_line.hxx"
 
-void drawDot(sf::RenderWindow& window, sf::Vertex dot){
+void drawDot(sf::RenderWindow& window, sf::Vertex dot, int type){
     sf::CircleShape shape(radius);
     shape.setPosition(sf::Vector2f(dot.position.x - radius, dot.position.y - radius));
-    shape.setFillColor(sf::Color::Black);
+    switch(type){
+        case 0:{
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+            shape.setFillColor(sf::Color::Black);
+            break;
+        }
+        case 1:{
+            std::this_thread::sleep_for(std::chrono::milliseconds(750));
+            shape.setFillColor(sf::Color::Magenta);
+            break;
+        }
+        case 2:{
+            std::this_thread::sleep_for(std::chrono::milliseconds(750));
+            shape.setFillColor(sf::Color::Red);
+            break;
+        }
+        case 3:{
+            std::this_thread::sleep_for(std::chrono::milliseconds(750));
+            shape.setFillColor(sf::Color::Blue);
+            break;
+        }
+    }
     window.draw(shape);
+    window.display();
 }
 
 sf::VertexArray generateDots(){
@@ -290,12 +314,52 @@ sf::VertexArray recursive(const sf::VertexArray dot){
     return ans;
 }
 
+void drawEdge(sf::RenderWindow& window, const sf::Vertex& dot0, const sf::Vertex& dot1, int type){
+    std::this_thread::sleep_for(std::chrono::milliseconds(750));
+    sf::VertexArray ans(sf::LineStrip, 2);
+    ans[0].position = dot0.position;
+    ans[1].position = dot1.position;
+    switch(type){
+        case 0:{
+            ans[0].color = sf::Color::Black;
+            ans[1].color = sf::Color::Black;
+            break;
+        }
+        case 1:{
+            ans[0].color = sf::Color::Magenta;
+            ans[1].color = sf::Color::Magenta;
+            break;
+        }
+        case 2:{
+            ans[0].color = sf::Color(255, 0, 0, 102);
+            ans[1].color = sf::Color(255, 0, 0, 102);
+            break;
+        }
+        case 3:{
+            ans[0].color = sf::Color(0, 0, 255, 102);
+            ans[1].color = sf::Color(0, 0, 255, 102);
+            break;
+        }
+    }
+    window.draw(ans);
+    window.display();
+}
+
 void andrewJarvisAnimate(sf::RenderWindow& window, sf::VertexArray dot){
+    window.clear(sf::Color::White);
+    for(int i = 0; i< amount; ++i){
+        drawDot(window, dot[i], 0);
+    }
     sf::VertexArray dot0(sf::Points, amount);
     for(int i = 0; i< amount; ++i)
         dot0[i].position = dot[i].position;
     sortVertexArray(dot0, amount);
+    std::this_thread::sleep_for(std::chrono::milliseconds(750));
+    drawDot(window, dot0[0], 1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(750));
+    drawDot(window, dot0[amount-1], 1);
     Line line0(dot0[0], dot0[amount-1]);
+    drawEdge(window, dot0[0], dot0[amount-1], 1);
 
     sf::VertexArray upperSubset(sf::Points, amount);
     sf::VertexArray lowerSubset(sf::Points, amount);
@@ -305,10 +369,13 @@ void andrewJarvisAnimate(sf::RenderWindow& window, sf::VertexArray dot){
     for(int i = 0; i < amount; ++i){
         if(line0.isPointIsAbove(dot0[i])){
             upperSubset[upperN] = dot0[i];
+            if(i != 0 && i != (amount-1))
+                drawDot(window, dot0[i], 2);
             ++upperN;
         }
         else{
             lowerSubset[lowerN] = dot0[i];
+            drawDot(window, dot0[i], 3);
             ++lowerN;
         }
     }
@@ -326,6 +393,7 @@ void andrewJarvisAnimate(sf::RenderWindow& window, sf::VertexArray dot){
           abs(elem.position.y-dot0[amount-1].position.y) > eps) && counter){
         for(int i = current+1; i < upperN; ++i){
             Line tempLine(elem,upperSubset[i]);
+            drawEdge(window, elem, upperSubset[i], 2);
             int tempInt = -1, j = 0;
             bool checker1 = true;
             while(j < upperN && checker1){
@@ -344,6 +412,7 @@ void andrewJarvisAnimate(sf::RenderWindow& window, sf::VertexArray dot){
                 current = i;
                 elem = upperSubset[current];
                 ans0[ans0N].position = sf::Vector2f(elem.position.x, elem.position.y);
+                drawEdge(window, ans0[ans0N-1], ans0[ans0N], 0);
                 ++ans0N;
             }
         }
@@ -361,6 +430,7 @@ void andrewJarvisAnimate(sf::RenderWindow& window, sf::VertexArray dot){
           abs(elem.position.y-dot0[amount-1].position.y) > eps) && counter){
         for(int i = current+1; i < lowerN; ++i){
             Line tempLine(elem,lowerSubset[i]);
+            drawEdge(window, elem, lowerSubset[i], 3);
             int tempInt = -1, j = 0;
             bool checker1 = true;
             while(j < lowerN && checker1){
@@ -379,6 +449,7 @@ void andrewJarvisAnimate(sf::RenderWindow& window, sf::VertexArray dot){
                 current = i;
                 elem = lowerSubset[current];
                 ans1[ans1N].position = sf::Vector2f(elem.position.x, elem.position.y);
+                drawEdge(window, ans1[ans1N-1], ans1[ans1N], 0);
                 ++ans1N;
             }
         }

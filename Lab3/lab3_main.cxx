@@ -30,7 +30,7 @@ int main(){
         window.clear(sf::Color::White);
         window.draw(lines);
         for(int i = 0; i< amount; ++i)
-            drawDot(window, dot[i]);
+            drawDot(window, dot[i], 0);
         window.display();
         */
     }
